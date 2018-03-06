@@ -6,13 +6,18 @@
 
 namespace iPaya\Weibo;
 
+use iPaya\Weibo\Api\Account;
 use iPaya\Weibo\Api\Api;
 use iPaya\Weibo\Api\OAuth2;
+use iPaya\Weibo\Api\Statuses;
 
 
 /**
  * Class Client
  * @package iPaya\Weibo
+ * @method OAuth2 oauth2()
+ * @method Account account()
+ * @method Statuses statuses()
  */
 class Client
 {
@@ -27,7 +32,7 @@ class Client
     public $oauth2BaseUrl = 'https://api.weibo.com/oauth2';
 
     public $apiBaseUrl = 'https://api.weibo.com';
-    public $apiVersion = 2;
+    public $apiVersion = '2';
 
 
     /**
@@ -36,10 +41,15 @@ class Client
      */
     public function api(string $name)
     {
-
         switch ($name) {
             case 'oauth2':
                 $api = new OAuth2($this);
+                break;
+            case 'account':
+                $api = new Account($this);
+                break;
+            case 'statuses':
+                $api = new Statuses($this);
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf('Undefined api instance called: "%s"', $name));
@@ -62,10 +72,17 @@ class Client
     {
         if (!$this->httpClient) {
             $this->httpClient = new \GuzzleHttp\Client([
-                'base_uri' => $this->apiBaseUrl . '/' . $this->apiVersion,
+                'base_uri' => $this->getApiUrl(),
             ]);
         }
         return $this->httpClient;
     }
 
+    /**
+     * @return string
+     */
+    public function getApiUrl(): string
+    {
+        return $this->apiBaseUrl . '/' . $this->apiVersion;
+    }
 }

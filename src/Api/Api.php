@@ -81,7 +81,6 @@ abstract class Api
             ];
         }
         return $this->client->getHttpClient()->post($path, [
-            'form_params' => $data,
             'headers' => $headers,
             'multipart' => $multipart
         ]);
