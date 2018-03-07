@@ -21,7 +21,6 @@ class Statuses extends Api
      */
     public function share(string $accessToken, string $text, string $pic = null, string $realIp = null)
     {
-        \Yii::error($text);
         $data = [
             'access_token' => $accessToken,
             'status' => $text,
