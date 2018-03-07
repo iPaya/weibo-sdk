@@ -35,6 +35,12 @@ class Client
     public $apiVersion = '2';
 
 
+    public function __construct(string $appKey = null, string $appSecret = null)
+    {
+        $this->appKey = $appKey;
+        $this->appSecret = $appSecret;
+    }
+
     /**
      * @param string $name
      * @return Api|OAuth2
