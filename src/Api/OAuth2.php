@@ -13,9 +13,10 @@ class OAuth2 extends Api
      * @param string|null $redirectUri
      * @param string|null $state
      * @param array $scope
+     * @param bool $forceLogin 强制重新登录
      * @return string
      */
-    public function getAuthorizeUrl(string $redirectUri = null, string $state = null, $scope = [])
+    public function getAuthorizeUrl(string $redirectUri = null, string $state = null, $scope = [], $forceLogin = false)
     {
         if (!is_array($scope)) {
             $scope = [$scope];
@@ -26,6 +27,7 @@ class OAuth2 extends Api
             'redirect_uri' => $redirectUri ? $redirectUri : $client->redirectUri,
             'state' => $state,
             'scope' => implode(',', $scope),
+            'forcelogin' => $forceLogin ? 'true' : 'false',
         ];
         return $client->oauth2BaseUrl . '/authorize?' . http_build_query($queryParams);
     }
